@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <meta charset="UTF-8">
+    <title>產品評論系統</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            background-color: #85C1E9;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1300px;
+            margin: auto;
+            padding: 5px;
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 0px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .container-left,
+        .container-right {
+            width: 48%;
+            padding: 50px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #fff;
+            background-color: #85C1E9;
+        }
+
+        p {
+            margin-bottom: 10px;
+            text-align: justify;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            background-color: #21618C;
+            color: #fff;
+            font-size: 18px;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff3920;
+        }
+
+        b {
+            color: #ff5733;
+        }
+
+        i {
+            color: #1e63d3;
+        }
+    </style>
+    <script>
+        function post_review() {
+            var formData = {
+                "product_id": $("#product_id").val(),
+                "rating": $("#rating").val(),
+                "labels": $("#labels").val(),
+                "reviews": $("#reviews").val()
+            };
+            $.ajax({
+                url: "/add_review/",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(formData),
+                success: function(res) {
+                    alert("Review added successfully!");
+                    // 清除表單中的輸入內容
+                    $("#reviewForm")[0].reset();
+                    // 加載並更新圖表
+                    loadCharts();
+                },
+                error: function() {
+                    console.log("AJAX ERROR!!!");
+                }
+            });
+        }
+
+        function loadCharts() {
+            $("#barChart").attr("src", "/bar_chart/");
+            $("#wordCloud").attr("src", "/word_cloud/");
+        }
+
+        $(document).ready(function() {
+            loadCharts();
+        });
+    </script>
+</head>
+<body>
+    <h1>產品評論系統</h1>
+    <div class="container">
+        <div class="container-left">
+            <h2>撰寫產品評論</h2>
+            <p>在下面的框中輸入你的評論，然後點選”提交“的按鈕：</p>
+            <form id="reviewForm">
+                <label for="product_id">Product ID:</label>
+                <input type="text" id="product_id" name="product_id" required><br><br>
+                <label for="rating">Rating:</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+                <label for="labels">Labels:</label>
+                <input type="text" id="labels" name="labels" required><br><br>
+                <label for="reviews">Reviews:</label>
+                <textarea id="reviews" name="reviews" rows="4" placeholder="輸入你的評論..." required></textarea><br><br>
+                <input type="button" onclick="post_review()" value="提交">
+            </form>
+        </div>
+        <div class="container-right">
+            <h2>評論分析</h2>
+            <p>以下是基於評論數據的圖表分析：</p>
+            <img id="barChart" src="" alt="Bar Chart" width="100%">
+            <img id="wordCloud" src="" alt="Word Cloud" width="100%">
+        </div>
+    </div>
+</body>
+</html>
