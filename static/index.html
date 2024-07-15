@@ -1,3 +1,5 @@
+<!--/static/index.html-->
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,212 +8,8 @@
     <meta charset="UTF-8">
     <title>產品評論系統</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f0f0f0;
-            margin: 0;
-            padding: 0;
-        }
-
-        h1 {
-            background-color: #85C1E9;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            margin: 0;
-            font-size: 36px;
-        }
-
-        .container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 1300px;
-            margin: auto;
-            padding: 5px;
-            background-color: #fff;
-            border: 2px solid #ddd;
-            border-radius: 0px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .container-left,
-        .container-right {
-            width: 48%;
-            padding: 50px;
-        }
-
-        h2 {
-            font-size: 24px;
-            color: #fff;
-            background-color: #85C1E9;
-        }
-
-        p {
-            margin-bottom: 10px;
-            text-align: justify;
-            color: #333;
-        }
-
-        textarea {
-            width: 100%;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-
-        input[type="submit"], input[type="button"] {
-            background-color: #21618C;
-            color: #fff;
-            font-size: 18px;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s ease-in-out;
-        }
-
-        input[type="submit"]:hover, input[type="button"]:hover {
-            background-color: #ff3920;
-        }
-
-        b {
-            color: #ff5733;
-        }
-
-        i {
-            color: #1e63d3;
-        }
-
-        .review-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .review-list li {
-            background-color: #f9f9f9;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .review-list li button {
-            background-color: #ff3920;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-        function post_review() {
-            var formData = {
-                "product_id": $("#product_id").val(),
-                "rating": $("#rating").val(),
-                "labels": $("#labels").val(),
-                "reviews": $("#reviews").val()
-            };
-            $.ajax({
-                url: "/add_review/",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify(formData),
-                success: function(res) {
-                    alert("Review added successfully!");
-                    $("#reviewForm")[0].reset();
-                    loadCharts();
-                    loadAllReviews();
-                    loadRandomReviews();
-                },
-                error: function() {
-                    console.log("AJAX ERROR!!!");
-                }
-            });
-        }
-
-        function delete_review(index) {
-            $.ajax({
-                url: "/delete_review/",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({index: index}),
-                success: function(res) {
-                    alert("Review deleted successfully!");
-                    loadAllReviews();
-                },
-                error: function() {
-                    console.log("AJAX ERROR!!!");
-                }
-            });
-        }
-
-        function loadCharts() {
-            $("#barChart").attr("src", "/bar_chart/");
-            $("#wordCloud").attr("src", "/word_cloud/");
-        }
-
-        function loadAllReviews() {
-            $.ajax({
-                url: "/all_reviews/",
-                method: "GET",
-                success: function(res) {
-                    var reviewList = $("#allReviews");
-                    reviewList.empty();
-                    res.forEach(function(review) {
-                        var li = $("<li></li>");
-                        li.html(
-                            "Index: " + review.index + "<br>" +
-                            "Product ID: " + review.product_id + "<br>" +
-                            "Rating: " + review.rating + "<br>" +
-                            "Labels: " + review.labels + "<br>" +
-                            "Reviews: " + review.reviews + "<br>" +
-                            "Review Date: " + review.review_date + "<br>" +
-                            "<button onclick='delete_review(" + review.index + ")'>Delete</button>"
-                        );
-                        reviewList.append(li);
-                    });
-                },
-                error: function() {
-                    console.log("AJAX ERROR!!!");
-                }
-            });
-        }
-
-        function loadRandomReviews() {
-            $.ajax({
-                url: "/random_reviews/",
-                method: "GET",
-                success: function(res) {
-                    var reviewList = $("#randomReviews");
-                    reviewList.empty();
-                    res.forEach(function(review) {
-                        var li = $("<li></li>");
-                        li.html(
-                            "Product ID: " + review.product_id + "<br>" +
-                            "Rating: " + review.rating + "<br>" +
-                            "Labels: " + review.labels + "<br>" +
-                            "Reviews: " + review.reviews + "<br>" +
-                            "Review Date: " + review.review_date
-                        );
-                        reviewList.append(li);
-                    });
-                },
-                error: function() {
-                    console.log("AJAX ERROR!!!");
-                }
-            });
-        }
-
-        $(document).ready(function() {
-            loadCharts();
-            loadAllReviews();
-            loadRandomReviews();
-        });
-    </script>
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script src="/static/scripts.js" defer></script>
 </head>
 <body>
     <h1>產品評論系統</h1>
@@ -238,6 +36,11 @@
             <p>以下是基於評論數據的圖表分析：</p>
             <img id="barChart" src="" alt="Bar Chart" width="100%">
             <img id="wordCloud" src="" alt="Word Cloud" width="100%">
+            <h2>刪除評論</h2>
+            <form id="deleteForm">
+                <label for="delete_index">Index of Review to Delete:</label>
+                <input type="number" id="delete_index" name="delete_index" required><br><br>
+                <input type="button" onclick="delete_review()" value="Delete">
             <h2>所有評論</h2>
             <ul id="allReviews" class="review-list"></ul>
         </div>
