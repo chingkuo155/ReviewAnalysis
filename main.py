@@ -15,3 +15,5 @@ app.include_router(review_router)
 async def read_index():
     with open("static/index.html", "r", encoding="utf-8") as f:
         return f.read()
+    
+# uvicorn main:app --reload

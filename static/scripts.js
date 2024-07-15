@@ -24,7 +24,7 @@ function post_review() {
     });
 }
 
-function delete_review(index) {
+function delete_review() {
     var index = $("#delete_index").val();
     $.ajax({
         url: "/delete_review/",
@@ -72,15 +72,17 @@ function loadAllReviews() {
             var reviewList = $("#allReviews");
             reviewList.empty();
             res.forEach(function(review) {
+                var fullReview = review.reviews;
+                var shortReview = fullReview.length > 400 ? fullReview.substring(0, 400) + '...' : fullReview;
                 var li = $("<li></li>");
                 li.html(
                     "Index: " + review.index + "<br>" +
                     "Product ID: " + review.product_id + "<br>" +
                     "Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
-                    "Reviews: " + review.reviews + "<br>" +
-                    "Review Date: " + review.review_date + "<br>" 
-                    // + "<button onclick='delete_review(" + review.index + ")'>Delete</button>"
+                    "Reviews: <span class='review-text'>" + shortReview + "</span><br>" +
+                    "Review Date: " + review.review_date + "<br>" +
+                    "<button class='toggle-review' data-full='" + fullReview + "' data-short='" + shortReview + "'>顯示較多</button>"
                 );
                 reviewList.append(li);
             });
@@ -99,13 +101,16 @@ function loadRandomReviews() {
             var reviewList = $("#randomReviews");
             reviewList.empty();
             res.forEach(function(review) {
+                var fullReview = review.reviews;
+                var shortReview = fullReview.length > 400 ? fullReview.substring(0, 400) + '...' : fullReview;
                 var li = $("<li></li>");
                 li.html(
                     "Product ID: " + review.product_id + "<br>" +
                     "Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
-                    "Reviews: " + review.reviews + "<br>" +
-                    "Review Date: " + review.review_date
+                    "Reviews: <span class='review-text'>" + shortReview + "</span><br>" +
+                    "Review Date: " + review.review_date + "<br>" +
+                    "<button class='toggle-review' data-full='" + fullReview + "' data-short='" + shortReview + "'>顯示較多</button>"
                 );
                 reviewList.append(li);
             });
@@ -115,6 +120,18 @@ function loadRandomReviews() {
         }
     });
 }
+
+$(document).on('click', '.toggle-review', function() {
+    var button = $(this);
+    var reviewText = button.siblings('.review-text');
+    if (button.text() === '顯示較多') {
+        reviewText.text(button.data('full'));
+        button.text('顯示較少');
+    } else {
+        reviewText.text(button.data('short'));
+        button.text('顯示較多');
+    }
+});
 
 $(document).ready(function() {
     loadCharts();
