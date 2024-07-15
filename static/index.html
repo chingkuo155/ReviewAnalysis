@@ -36,6 +36,17 @@
             <p>以下是基於評論數據的圖表分析：</p>
             <img id="barChart" src="" alt="Bar Chart" width="100%">
             <img id="wordCloud" src="" alt="Word Cloud" width="100%">
+            
+            <h2>生成區域圖</h2>
+            <form id="areaChartForm">
+                <label for="startDate">開始日期 (YYYY-MM-DD):</label>
+                <input type="date" id="startDate" name="startDate" required><br><br>
+                <label for="endDate">結束日期 (YYYY-MM-DD):</label>
+                <input type="date" id="endDate" name="endDate" required><br><br>
+                <input type="button" onclick="loadAreaChart()" value="生成區域圖">
+            </form>
+            <img id="areaChart" src="" alt="Area Chart" width="100%">
+
             <h2>刪除評論</h2>
             <form id="deleteForm">
                 <label for="delete_index">Index of Review to Delete:</label>

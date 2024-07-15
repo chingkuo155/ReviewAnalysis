@@ -33,6 +33,7 @@ function delete_review(index) {
         data: JSON.stringify({index: index}),
         success: function(res) {
             alert("Review deleted successfully!");
+            $("#deleteForm")[0].reset();
             loadAllReviews();
         },
         error: function() {
@@ -44,6 +45,23 @@ function delete_review(index) {
 function loadCharts() {
     $("#barChart").attr("src", "/bar_chart/");
     $("#wordCloud").attr("src", "/word_cloud/");
+}
+
+function loadAreaChart() {
+    var startDate = $("#startDate").val();
+    var endDate = $("#endDate").val();
+    var areaChartUrl = `/area_chart/?start_date=${startDate}&end_date=${endDate}`;
+    
+    $.ajax({
+        url: areaChartUrl,
+        method: "GET",
+        success: function() {
+            $("#areaChart").attr("src", areaChartUrl);
+        },
+        error: function() {
+            console.log("AJAX ERROR!!!");
+        }
+    });
 }
 
 function loadAllReviews() {
@@ -61,8 +79,8 @@ function loadAllReviews() {
                     "Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
                     "Reviews: " + review.reviews + "<br>" +
-                    "Review Date: " + review.review_date + "<br>" +
-                    "<button onclick='delete_review(" + review.index + ")'>Delete</button>"
+                    "Review Date: " + review.review_date + "<br>" 
+                    // + "<button onclick='delete_review(" + review.index + ")'>Delete</button>"
                 );
                 reviewList.append(li);
             });
