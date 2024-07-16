@@ -11,11 +11,29 @@ class DataVisualizer:
 
     def plot_bar_chart(self, file_path):
         counts = self.df['labels'].value_counts()
+        total_count = counts.sum()
         sns.barplot(x=counts.index, y=counts, palette='viridis', hue=counts.index)
         plt.xlabel('Labels')
         plt.ylabel('Counts')
         plt.title('Label Counts')
         plt.legend([], [], frameon=False)  # 隱藏圖例
+
+        # 根據counts.index利用表情符號顯示(unicode正:U+1F600 中:U+1F642 負:U+1F625)
+        # 表情符號映射
+        emoji_map = {
+        'Positive': '\U0001F600',  # 😀
+        'Neutral': '\U0001F636',   # 🙂
+        'Negative': '\U0001F625'   # 😥
+        }
+        emoji = emoji_map.get(self.df['labels'].value_counts().idxmax(), '')
+        plt.text(2, 60, emoji, ha='center', va='bottom', fontsize=48)
+
+        for index, value in enumerate(counts):
+            percentage = (value / total_count) * 100
+            plt.text(index, value, f'{value}({percentage:.1f}%)', ha='center', va='bottom')
+
+        plt.text(len(counts)-1, max(counts)-1, f'Total: {total_count}', ha='center', va='bottom', fontsize=12, color='black')
+
         plt.savefig(file_path)
         plt.close()
 
