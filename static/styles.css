@@ -99,3 +99,36 @@ i {
     border-radius: 3px;
     cursor: pointer;
 }
+
+.review-text-container {
+    position: relative;
+}
+
+.review-text {
+    margin: 0;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.short-review {
+    -webkit-line-clamp: 3;
+}
+
+.full-review {
+    -webkit-line-clamp: none;
+}
+
+.d-none {
+    display: none;
+}
+
+.toggle-review {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+}

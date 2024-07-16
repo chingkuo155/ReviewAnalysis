@@ -47,23 +47,6 @@ function loadCharts() {
     $("#wordCloud").attr("src", "/word_cloud/");
 }
 
-function loadAreaChart() {
-    var startDate = $("#startDate").val();
-    var endDate = $("#endDate").val();
-    var areaChartUrl = `/area_chart/?start_date=${startDate}&end_date=${endDate}`;
-    
-    $.ajax({
-        url: areaChartUrl,
-        method: "GET",
-        success: function() {
-            $("#areaChart").attr("src", areaChartUrl);
-        },
-        error: function() {
-            console.log("AJAX ERROR!!!");
-        }
-    });
-}
-
 function loadAllReviews() {
     $.ajax({
         url: "/all_reviews/",
@@ -72,17 +55,20 @@ function loadAllReviews() {
             var reviewList = $("#allReviews");
             reviewList.empty();
             res.forEach(function(review) {
-                var fullReview = review.reviews;
-                var shortReview = fullReview.length > 400 ? fullReview.substring(0, 400) + '...' : fullReview;
                 var li = $("<li></li>");
+                var fullReview = review.reviews;
+                var shortReview = truncateReview(fullReview);
                 li.html(
                     "Index: " + review.index + "<br>" +
                     "Product ID: " + review.product_id + "<br>" +
                     "Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
-                    "Reviews: <span class='review-text'>" + shortReview + "</span><br>" +
+                    "Reviews: <div class='review-text-container'>" +
+                        "<p class='review-text short-review'>" + shortReview + "</p>" +
+                        "<p class='review-text full-review d-none'>" + fullReview + "</p>" +
+                    "</div>" +
                     "Review Date: " + review.review_date + "<br>" +
-                    "<button class='toggle-review' data-full='" + fullReview + "' data-short='" + shortReview + "'>顯示較多</button>"
+                    "<button class='toggle-review'>顯示更多</button>"
                 );
                 reviewList.append(li);
             });
@@ -101,16 +87,19 @@ function loadRandomReviews() {
             var reviewList = $("#randomReviews");
             reviewList.empty();
             res.forEach(function(review) {
-                var fullReview = review.reviews;
-                var shortReview = fullReview.length > 400 ? fullReview.substring(0, 400) + '...' : fullReview;
                 var li = $("<li></li>");
+                var fullReview = review.reviews;
+                var shortReview = truncateReview(fullReview);
                 li.html(
                     "Product ID: " + review.product_id + "<br>" +
                     "Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
-                    "Reviews: <span class='review-text'>" + shortReview + "</span><br>" +
+                    "Reviews: <div class='review-text-container'>" +
+                        "<p class='review-text short-review'>" + shortReview + "</p>" +
+                        "<p class='review-text full-review d-none'>" + fullReview + "</p>" +
+                    "</div>" +
                     "Review Date: " + review.review_date + "<br>" +
-                    "<button class='toggle-review' data-full='" + fullReview + "' data-short='" + shortReview + "'>顯示較多</button>"
+                    "<button class='toggle-review'>顯示更多</button>"
                 );
                 reviewList.append(li);
             });
@@ -121,15 +110,42 @@ function loadRandomReviews() {
     });
 }
 
+function loadAreaChart() {
+    var startDate = $("#startDate").val();
+    var endDate = $("#endDate").val();
+    var areaChartUrl = `/area_chart/?start_date=${startDate}&end_date=${endDate}`;
+    
+    $.ajax({
+        url: areaChartUrl,
+        method: "GET",
+        success: function() {
+            $("#areaChart").attr("src", areaChartUrl);
+        },
+        error: function() {
+            console.log("AJAX ERROR!!!");
+        }
+    });
+}
+
+function truncateReview(review) {
+    var div = $("<div>").html(review);
+    var text = div.text();
+    var lines = text.split(/\r\n|\r|\n/).length;
+    return lines > 3 ? text.split(/\r\n|\r|\n/).slice(0, 3).join(" ") + '...' : text;
+}
+
 $(document).on('click', '.toggle-review', function() {
     var button = $(this);
-    var reviewText = button.siblings('.review-text');
-    if (button.text() === '顯示較多') {
-        reviewText.text(button.data('full'));
-        button.text('顯示較少');
+    var shortReview = button.siblings('.review-text-container').find('.short-review');
+    var fullReview = button.siblings('.review-text-container').find('.full-review');
+    if (shortReview.hasClass('d-none')) {
+        shortReview.removeClass('d-none');
+        fullReview.addClass('d-none');
+        button.text('顯示更多');
     } else {
-        reviewText.text(button.data('short'));
-        button.text('顯示較多');
+        shortReview.addClass('d-none');
+        fullReview.removeClass('d-none');
+        button.text('顯示較少');
     }
 });
 
@@ -137,4 +153,5 @@ $(document).ready(function() {
     loadCharts();
     loadAllReviews();
     loadRandomReviews();
+    loadAreaChart()
 });
