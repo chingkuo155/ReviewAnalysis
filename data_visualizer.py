@@ -11,23 +11,29 @@ class DataVisualizer:
 
     def plot_bar_chart(self, file_path):
         counts = self.df['labels'].value_counts()
-        total_count = counts.sum()
         sns.barplot(x=counts.index, y=counts, palette='viridis', hue=counts.index)
-        plt.xlabel('Emotion Category')
-        plt.ylabel('Volume')
-        plt.title('Sentiment Distribution')
+        plt.xlabel('Labels')
+        plt.ylabel('Counts')
+        plt.title('Label Counts')
         plt.legend([], [], frameon=False)  # 隱藏圖例
-        
-        #在每個長條上顯示筆數
-        for index, value in enumerate(counts):
-            plt.text(index, value, str(value), ha='center', va='bottom')
-        #顯示總筆數
-        plt.text(len(counts) - 1, max(counts), f'Total: {total_count}', 
-                 ha='right', va='bottom', fontsize=12, color='black')
-
         plt.savefig(file_path)
         plt.close()
 
+    def plot_word_cloud(self, file_path):
+        self.df['reviews'] = self.df['reviews'].astype(str)
+        text = " ".join(review for review in self.df.reviews)
+
+        stopwords = set(STOPWORDS)
+        stopwords.update(["product"])
+
+        wordcloud = WordCloud(stopwords=stopwords, width=800, height=800, background_color='white', colormap='viridis').generate(text)
+
+        plt.imshow(wordcloud, interpolation='bilinear')
+        plt.axis('off')
+        plt.title('Word Cloud')
+        plt.savefig(file_path)
+        plt.close()
+    
     def plot_area_chart(self, start_date, end_date, file_path):
         self.df['review_date'] = pd.to_datetime(self.df['review_date'])
         self.df['month'] = self.df['review_date'].dt.to_period('M')
@@ -40,24 +46,5 @@ class DataVisualizer:
         plt.xlabel('Date')
         plt.ylabel('Volume')
 
-        plt.savefig(file_path)
-        plt.close()            
-
-    def plot_word_cloud(self, file_path):
-        self.df['reviews'] = self.df['reviews'].astype(str)
-        text = " ".join(review for review in self.df.reviews)
-
-        stopwords = set(STOPWORDS)
-        stopwords.update(["product"])
-
-        wordcloud = WordCloud(stopwords=stopwords, 
-                              width=800, 
-                              height=800, 
-                              background_color='white', 
-                              colormap='viridis').generate(text)
-
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis('off')
-        plt.title('Word Cloud')
         plt.savefig(file_path)
         plt.close()

@@ -68,10 +68,11 @@ function loadAllReviews() {
                         "<p class='review-text full-review d-none'>" + fullReview + "</p>" +
                     "</div>" +
                     "Review Date: " + review.review_date + "<br>" +
-                    "<button class='toggle-review'>顯示更多</button>"
+                    "<button class='toggle-review d-none'>顯示更多</button>"
                 );
                 reviewList.append(li);
             });
+            toggleReviewButton();
         },
         error: function() {
             console.log("AJAX ERROR!!!");
@@ -99,10 +100,11 @@ function loadRandomReviews() {
                         "<p class='review-text full-review d-none'>" + fullReview + "</p>" +
                     "</div>" +
                     "Review Date: " + review.review_date + "<br>" +
-                    "<button class='toggle-review'>顯示更多</button>"
+                    "<button class='toggle-review d-none'>顯示更多</button>"
                 );
                 reviewList.append(li);
             });
+            toggleReviewButton();
         },
         error: function() {
             console.log("AJAX ERROR!!!");
@@ -132,6 +134,18 @@ function truncateReview(review) {
     var text = div.text();
     var lines = text.split(/\r\n|\r|\n/).length;
     return lines > 3 ? text.split(/\r\n|\r|\n/).slice(0, 3).join(" ") + '...' : text;
+}
+
+function toggleReviewButton() {
+    $(".review-text-container").each(function() {
+        var container = $(this);
+        var shortReview = container.find(".short-review");
+        var fullReview = container.find(".full-review");
+
+        if (shortReview.height() < fullReview.height()) {
+            container.siblings(".toggle-review").removeClass("d-none");
+        }
+    });
 }
 
 $(document).on('click', '.toggle-review', function() {
