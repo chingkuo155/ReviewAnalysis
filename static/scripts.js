@@ -168,4 +168,8 @@ $(document).ready(function() {
     loadAllReviews();
     loadRandomReviews();
     loadAreaChart()
+
+    $('#toggleReviewsBtn').click(function() {
+        $('#allReviewsContainer').toggle();
+    });
 });
