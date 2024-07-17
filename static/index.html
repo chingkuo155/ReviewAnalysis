@@ -1,90 +1,71 @@
 <!--/static/index.html-->
 
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html>
 <head>
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+    <script src="http://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>產品評論系統</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/static/styles.css">
+    <script src="/static/scripts.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>產品評論系統</h1>
-    </header>
-    <main class="container">
-        <section class="container-left">
+    <h1>產品評論系統</h1>
+    <div class="container">
+        <div class="container-left">
+
             <h2>產品評論總覽</h2>
+            <ul id="randomReviews" class="review-list"></ul>
+
             <button id="toggleReviewsBtn">顯示/隱藏所有評論</button>
             <div id="allReviewsContainer">
                 <ul id="allReviews" class="review-list"></ul>
             </div>
 
             <h2>撰寫產品評論</h2>
+            <p>在下面的框中輸入你的評論，然後點選”提交“的按鈕：</p>
             <form id="reviewForm">
-                <div class="form-group">
-                    <label for="product_id">Product ID:</label>
-                    <input type="text" id="product_id" name="product_id" required>
-                </div>
-                <div class="form-group">
-                    <label for="rating">Rating:</label>
-                    <input type="number" id="rating" name="rating" min="1" max="5" required>
-                </div>
-                <div class="form-group">
-                    <label for="labels">Labels:</label>
-                    <input type="text" id="labels" name="labels" required>
-                </div>
-                <div class="form-group">
-                    <label for="reviews">Reviews:</label>
-                    <textarea id="reviews" name="reviews" rows="4" required></textarea>
-                </div>
-                <button type="button" onclick="post_review()">提交評論</button>
+                <label for="product_id">Product ID:</label>
+                <input type="text" id="product_id" name="product_id" required><br><br>
+                <label for="rating">Rating:</label>
+                <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
+                <label for="labels">Labels:</label>
+                <input type="text" id="labels" name="labels" required><br><br>
+                <label for="reviews">Reviews:</label>
+                <textarea id="reviews" name="reviews" rows="4" placeholder="輸入你的評論..." required></textarea><br><br>
+                <input type="button" onclick="post_review()" value="提交">
             </form>
-        </section>
 
-        <section class="container-right">
+        </div>
+        <div class="container-right">
             <h2>評論分析</h2>
-<<<<<<< HEAD
-            <div class="chart-container">
-                <h3>長條圖</h3>
-                <img id="barChart" src="" alt="Bar Chart" width="100%">
-            </div>
-            <div class="chart-container">
-                <h3>文字雲</h3>
-                <img id="wordCloud" src="" alt="Word Cloud" width="100%">
-            </div>
-=======
             <p>以下是基於評論數據的圖表分析：</p>
+            <p>長條圖</p>
             <img id="barChart" src="" alt="Bar Chart" width="100%">
+            <p>文字雲</p>
             <img id="wordCloud" src="" alt="Word Cloud" width="100%">
->>>>>>> parent of e2f51c9 (加入readme.md)
+            
 
             <h2>面積圖</h2>
             <form id="areaChartForm">
-                <div class="form-group">
-                    <label for="startDate">開始日期 (YYYY-MM-DD):</label>
-                    <input type="date" id="startDate" name="startDate" required>
-                </div>
-                <div class="form-group">
-                    <label for="endDate">結束日期 (YYYY-MM-DD):</label>
-                    <input type="date" id="endDate" name="endDate" required>
-                </div>
-                <button type="button" onclick="loadAreaChart()">生成面積圖</button>
+                <label for="startDate">開始日期 (YYYY-MM-DD):</label>
+                <input type="date" id="startDate" name="startDate" required><br><br>
+                <label for="endDate">結束日期 (YYYY-MM-DD):</label>
+                <input type="date" id="endDate" name="endDate" required><br><br>
+                <input type="button" onclick="loadAreaChart()" value="生成面積圖">
             </form>
             <img id="areaChart" src="" alt="Area Chart" width="100%">
 
             <h2>刪除評論</h2>
             <form id="deleteForm">
-                <div class="form-group">
-                    <label for="delete_index">Index of Review to Delete:</label>
-                    <input type="number" id="delete_index" name="delete_index" required>
-                </div>
-                <button type="button" onclick="delete_review()">刪除評論</button>
-            </form>
-        </section>
-    </main>
+                <label for="delete_index">Index of Review to Delete:</label>
+                <input type="number" id="delete_index" name="delete_index" required><br><br>
+                <input type="button" onclick="delete_review()" value="Delete">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/static/scripts.js"></script>
+
+        </div>
+    </div>
 </body>
 </html>
