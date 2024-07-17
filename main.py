@@ -5,11 +5,11 @@ from fastapi.staticfiles import StaticFiles
 from routes import router as review_router
 from fastapi.responses import HTMLResponse
 
-app = FastAPI()
+app = FastAPI(title="Review Management System")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-app.include_router(review_router)
+app.include_router(review_router, prefix="/api", tags=["reviews"])
 
 @app.get("/", response_class=HTMLResponse)
 async def read_index():

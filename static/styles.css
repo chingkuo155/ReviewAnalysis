@@ -1,81 +1,100 @@
 /* /static/styles.css */
 
+:root {
+    --primary-color: #85C1E9;
+    --secondary-color: #21618C;
+    --background-color: #f0f0f0;
+    --text-color: #333;
+    --border-color: #ddd;
+}
+
 body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: var(--background-color);
+    color: var(--text-color);
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+}
+
+h1, h2, h3 {
+    margin: 0 0 1rem;
 }
 
 h1 {
-    background-color: #85C1E9;
+    background-color: var(--primary-color);
     color: #fff;
-    padding: 20px;
+    padding: 1rem;
     text-align: center;
-    margin: 0;
-    font-size: 36px;
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    background-color: var(--primary-color);
+    padding: 0.5rem;
 }
 
 .container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     max-width: 1300px;
-    margin: auto;
-    padding: 5px;
+    margin: 1rem auto;
+    padding: 1rem;
     background-color: #fff;
-    border: 2px solid #ddd;
-    border-radius: 0px;
+    border: 2px solid var(--border-color);
+    border-radius: 5px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .container-left,
 .container-right {
-    width: 48%;
-    padding: 50px;
+    width: 100%;
+    padding: 1rem;
 }
 
-h2 {
-    font-size: 24px;
-    color: #fff;
-    background-color: #85C1E9;
+@media (min-width: 768px) {
+    .container-left,
+    .container-right {
+        width: 48%;
+    }
 }
 
-p {
-    margin-bottom: 10px;
-    text-align: justify;
-    color: #333;
+.form-group {
+    margin-bottom: 1rem;
 }
 
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
 textarea {
     width: 100%;
-    padding: 15px;
-    border: 1px solid #ddd;
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-    margin-bottom: 10px;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
-input[type="submit"], input[type="button"] {
-    background-color: #21618C;
+button {
+    background-color: var(--secondary-color);
     color: #fff;
-    font-size: 18px;
+    font-size: 1rem;
     border: none;
-    padding: 10px 25px;
+    padding: 0.5rem 1rem;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out;
 }
 
-input[type="submit"]:hover, input[type="button"]:hover {
+button:hover {
     background-color: #ff3920;
-}
-
-b {
-    color: #ff5733;
-}
-
-i {
-    color: #1e63d3;
 }
 
 .review-list {
@@ -85,19 +104,10 @@ i {
 
 .review-list li {
     background-color: #f9f9f9;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
-}
-
-.review-list li button {
-    background-color: #ff3920;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
 }
 
 .review-text-container {
@@ -107,28 +117,28 @@ i {
 .review-text {
     margin: 0;
     overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
 }
 
 .short-review {
+    display: -webkit-box;
     -webkit-line-clamp: 3;
-}
-
-.full-review {
-    -webkit-line-clamp: none;
-}
-
-.d-none {
-    display: none;
+    -webkit-box-orient: vertical;
 }
 
 .toggle-review {
     cursor: pointer;
-    color: blue;
+    color: var(--secondary-color);
     text-decoration: underline;
     background: none;
     border: none;
     padding: 0;
     font: inherit;
+}
+
+.chart-container {
+    margin-bottom: 2rem;
+}
+
+.d-none {
+    display: none;
 }
