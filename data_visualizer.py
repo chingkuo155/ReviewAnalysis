@@ -21,7 +21,7 @@ class DataVisualizer:
         # 根據counts.index利用表情符號顯示(unicode正:U+1F600 中:U+1F642 負:U+1F625)
         # 表情符號映射
         emoji_map = {
-        'Positive': '\U0001F600',  # 😀
+        'Positive': '☺',  # 😀\U0001F600 ☺
         'Neutral': '\U0001F636',   # 🙂
         'Negative': '\U0001F625'   # 😥
         }
