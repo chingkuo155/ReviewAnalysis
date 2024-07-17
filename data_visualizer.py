@@ -39,7 +39,18 @@ class DataVisualizer:
         plt.title('Label Counts')
         plt.legend([], [], frameon=False)
 
+<<<<<<< HEAD
         emoji = EMOJI_MAP.get(self.df['labels'].value_counts().idxmax(), '')
+=======
+        # 根據counts.index利用表情符號顯示(unicode正:U+1F600 中:U+1F642 負:U+1F625)
+        # 表情符號映射
+        emoji_map = {
+        'Positive': '\U0001F600',  # 😀
+        'Neutral': '\U0001F636',   # 🙂
+        'Negative': '\U0001F625'   # 😥
+        }
+        emoji = emoji_map.get(self.df['labels'].value_counts().idxmax(), '')
+>>>>>>> parent of e2f51c9 (加入readme.md)
         plt.text(2, 60, emoji, ha='center', va='bottom', fontsize=48)
 
         for index, value in enumerate(counts):
