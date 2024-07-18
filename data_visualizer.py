@@ -8,10 +8,13 @@ from wordcloud import WordCloud, STOPWORDS
 class DataVisualizer:
     def __init__(self, df):
         self.df = df
+        self.n = 90
 
     def plot_bar_chart(self, file_path):
         counts = self.df['labels'].value_counts()
         total_count = counts.sum()
+
+        plt.figure(figsize=(6, 8))
         sns.barplot(x=counts.index, y=counts, palette='viridis', hue=counts.index)
         plt.xlabel('Labels')
         plt.ylabel('Counts')
@@ -26,14 +29,16 @@ class DataVisualizer:
         'Negative': '\U0001F625'   # 😥
         }
         emoji = emoji_map.get(self.df['labels'].value_counts().idxmax(), '')
-        plt.text(2, 60, emoji, ha='center', va='bottom', fontsize=48)
+        plt.text(2, 72, emoji, ha='center', va='bottom', fontsize=48)
 
         for index, value in enumerate(counts):
             percentage = (value / total_count) * 100
             plt.text(index, value, f'{value}({percentage:.1f}%)', ha='center', va='bottom')
+            self.n -= 5
+            plt.text(-0.48 ,self.n,f'{counts.index[index]}:{value}({percentage:.1f}%)', fontsize=12, ha='left', va='top')
 
         plt.text(len(counts)-1, max(counts)-1, f'Total: {total_count}', ha='center', va='bottom', fontsize=12, color='black')
-
+        plt.tight_layout()
         plt.savefig(file_path)
         plt.close()
 
