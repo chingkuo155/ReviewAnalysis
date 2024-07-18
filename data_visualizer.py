@@ -14,7 +14,7 @@ class DataVisualizer:
         counts = self.df['labels'].value_counts()
         total_count = counts.sum()
 
-        plt.figure(figsize=(6, 8))
+        plt.figure(figsize=(6, 7))
         sns.barplot(x=counts.index, y=counts, palette='viridis', hue=counts.index)
         plt.xlabel('Labels')
         plt.ylabel('Counts')
@@ -50,10 +50,29 @@ class DataVisualizer:
         stopwords.update(["product"])
 
         wordcloud = WordCloud(stopwords=stopwords, width=800, height=800, background_color='white', colormap='viridis').generate(text)
+        
+        pos_words = ["Sound quality (126)", "Value (70)", "Easy to use (66)​", "Battery life (52)", "Easy to use (36)​"]
+        neg_words = ["Performance (126)​", "Charging (​70)", "Don’t work (57)​", "Not Compatible (27)", "borken (20)"]
+
+        fig, ax = plt.subplots(figsize=(17, 12))  # 調整圖像的大小
 
         plt.imshow(wordcloud, interpolation='bilinear')
         plt.axis('off')
-        plt.title('Word Cloud')
+
+        right_ax = fig.add_axes([0.7, 0.6, 0, 0.4])  # [left, bottom, width, height]
+        right_ax.axis('off')
+
+        # 在右侧显示文字
+        right_ax.text(0.5, 0.85, 'Positive Keywords:', fontsize=32, weight='bold', ha='left', va='bottom')
+        for i, word in enumerate(pos_words):
+            right_ax.text(0.5, 0.85 - (i + 1) / 5, word, fontsize=32, ha='left', va='bottom')
+        right_ax.text(0.5, -0.5, "Negative Keywords:", fontsize=32, weight='bold', ha='left', va='bottom')
+        for i, word in enumerate(neg_words):
+            right_ax.text(0.5, -0.5 - (i + 1) / 5, word, fontsize=32, ha='left', va='bottom')
+
+        plt.subplots_adjust(left=-0.125, right=0.8, top=1, bottom=0)  # 調整邊界以增加右側空白
+
+        #plt.title('Word Cloud')
         plt.savefig(file_path)
         plt.close()
     
