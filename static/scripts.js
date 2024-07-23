@@ -173,3 +173,55 @@ $(document).ready(function() {
         $('#allReviewsContainer').toggle();
     });
 });
+
+const reviewData = {
+    Quality: { total: 601, positive: 469, negative: 132 },
+    Comfort: { total: 433, positive: 368, negative: 65 },
+    Value: { total: 278, positive: 241, negative: 37 },
+    Weight: { total: 92, positive: 83, negative: 9 },
+    "Sound quality": { total: 937, positive: 616, negative: 321 },
+    "Mic quality": { total: 450, positive: 187, negative: 263 },
+    Performance: { total: 208, positive: 142, negative: 66 },
+    Fit: { total: 105, positive: 49, negative: 56 }
+  };
+
+document.addEventListener('DOMContentLoaded', function() {
+    const keywordsContainer = document.getElementById('review-keywords');
+    const detailsContainer = document.getElementById('review-details');
+    const detailKeyword = document.getElementById('detail-keyword');
+    const detailTotal = document.getElementById('detail-total');
+    const detailPositive = document.getElementById('detail-positive');
+    const detailNegative = document.getElementById('detail-negative');
+
+    let activeButton = null;
+
+    for (const keyword in reviewData) {
+        const button = document.createElement('button');
+        button.textContent = keyword;
+        button.classList.add('keyword-button');
+        button.addEventListener('click', () => toggleDetails(keyword, button));
+        keywordsContainer.appendChild(button);
+    }
+
+    function toggleDetails(keyword, button) {
+        if (activeButton === button) {
+        // If clicking the same button, hide details
+        detailsContainer.classList.add('hidden');
+        button.classList.remove('active');
+        activeButton = null;
+        } else {
+        // Show details for the clicked keyword
+        const data = reviewData[keyword];
+        detailKeyword.textContent = keyword;
+        detailTotal.textContent = data.total;
+        detailPositive.textContent = data.positive;
+        detailNegative.textContent = data.negative;
+        detailsContainer.classList.remove('hidden');
+
+        // Update button states
+        if (activeButton) activeButton.classList.remove('active');
+        button.classList.add('active');
+        activeButton = button;
+        }
+    }
+});

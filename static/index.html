@@ -42,6 +42,15 @@
         <div class="container-right">
             <h2>評論分析</h2>
             <p>以下是基於評論數據的圖表分析：</p>
+            <div id="review-keywords">
+                <!-- Buttons will be dynamically inserted here -->
+            </div>
+            <div id="review-details" class="hidden">
+                <h3 id="detail-keyword"></h3>
+                <p>Total mentions: <span id="detail-total"></span></p>
+                <p>Positive reviews: <span id="detail-positive"></span></p>
+                <p>Negative reviews: <span id="detail-negative"></span></p>
+            </div>            
             <p>文字雲</p>
             <img id="wordCloud" src="" alt="Word Cloud" width="100%">
             <p>長條圖</p>

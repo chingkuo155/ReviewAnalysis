@@ -132,3 +132,28 @@ i {
     padding: 0;
     font: inherit;
 }
+
+.keyword-button {
+    margin: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .keyword-button.active {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  #review-details {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .hidden {
+    display: none;
+  }
