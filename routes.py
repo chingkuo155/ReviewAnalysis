@@ -8,7 +8,8 @@ import pandas as pd
 from datetime import datetime
 
 file_path = 'sample1.csv'
-review_manager = ReviewManager(file_path)
+model_path = 'roberta_sentiment_model_Final.pth'
+review_manager = ReviewManager(file_path, model_path)
 
 router = APIRouter()
 

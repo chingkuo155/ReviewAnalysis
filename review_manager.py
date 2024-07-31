@@ -4,6 +4,7 @@ from pydantic import BaseModel
 import pandas as pd
 import os
 from datetime import datetime
+from sentiment_analyzer import SentimentAnalyzer
 
 class Review(BaseModel):
     product_id: str
@@ -15,25 +16,33 @@ class ReviewDelete(BaseModel):
     index: int
 
 class ReviewManager:
-    def __init__(self, file_path):
+    def __init__(self, file_path, model_path):
         self.file_path = file_path
         if not os.path.isfile(file_path):
             df = pd.DataFrame(columns=['index', 'product_id', 'rating', 'labels', 'reviews', 'review_date'])
             df.to_csv(file_path, index=False)
         self.df = pd.read_csv(file_path)
+        self.sentiment_analyzer = SentimentAnalyzer(model_path)
 
     def add_review(self, product_id, rating, labels, reviews):
         new_index = self.df['index'].max() + 1 if not self.df.empty else 1
         review_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        new_review = {
-            'index': new_index,
-            'product_id': product_id, 
-            'rating': rating, 
-            'labels': labels, 
-            'reviews': reviews,
-            'review_date': review_date,
-        }
-        self.df = pd.concat([self.df, pd.DataFrame([new_review])], ignore_index=True)
+
+        # Analyze sentiment for the new review only
+        sentiment = self.sentiment_analyzer.analyze_sentiments_batch([reviews])[0]
+        labels = self.sentiment_analyzer.get_sentiment_label(sentiment)
+
+        new_review = pd.DataFrame({
+            'index': [new_index],
+            'product_id': [product_id], 
+            'rating': [rating], 
+            'labels': [labels], 
+            'reviews': [reviews],
+            'review_date': [review_date],
+        })
+        
+        # Append the new review to the existing DataFrame
+        self.df = pd.concat([self.df, new_review], ignore_index=True)
         self.df.to_csv(self.file_path, index=False)
     
     def delete_review(self, index):
