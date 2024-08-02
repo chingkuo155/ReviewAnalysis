@@ -2,21 +2,23 @@
 
 ## 1. Project Overview
 
-This is a product review analysis system designed to collect, manage, and analyze product reviews. The system provides functionalities for adding, deleting, and viewing reviews, as well as data visualization capabilities including bar charts, word clouds, and area charts.
+This project is a comprehensive product review analysis system that facilitates the collection, management, and analysis of customer feedback. It features tools for adding, deleting, and viewing reviews, coupled with advanced sentiment analysis capabilities. Upon submission, each review is processed through a machine learning model to determine its sentiment. The system also offers various data visualization options, including bar charts, word clouds, and area charts, to help interpret review data effectively.
 
 ## 2. Features
 
+- Generate bar charts of review data
+- Create word clouds from review text
+- Produce area charts of sentiment distribution over a specified time range
+- Sentiment analysis of reviews
+- Keyword-based review statistics
 - Add product reviews
 - Delete specific reviews
 - Display random reviews
 - Show all reviews
-- Generate bar charts of review data
-- Create word clouds from review text
-- Produce area charts of sentiment distribution over a specified time range
 
 ## 3. Technology Stack
 
-- Backend: Python, FastAPI, Pandas, Matplotlib, Seaborn, WordCloud
+- Backend: Python, FastAPI, Pandas, Matplotlib, Seaborn, WordCloud, PyTorch, Transformers (Hugging Face)
 - Frontend: HTML, CSS, JavaScript, jQuery
 
 ## 4. File Structure
@@ -26,6 +28,8 @@ This is a product review analysis system designed to collect, manage, and analyz
   - `routes.py`: API route definitions
   - `review_manager.py`: Review management class
   - `data_visualizer.py`: Data visualization class
+  - `sentiment_analyzer.py`：Sentiment analysis class
+  - `preprocessing.py`：Text preprocessing functions
 - Frontend:
   - `static/index.html`: Main frontend page
   - `static/scripts.js`: Frontend JavaScript functionality
@@ -36,11 +40,17 @@ This is a product review analysis system designed to collect, manage, and analyz
 1. Clone this repository
 2. Install required Python packages:
    ```
-   pip install fastapi pandas matplotlib seaborn wordcloud
+   pip install fastapi pandas matplotlib seaborn wordcloud torch transformers nltk textblob tqdm
    ```
 3. Install the ASGI server for running FastAPI:
    ```
    pip install uvicorn
+   ```
+4. Download necessary NLTK data:
+   ```python
+   import nltk
+   nltk.download('stopwords')
+   ltk.download('wordnet')
    ```
 
 ## 6. Usage Instructions
@@ -60,6 +70,7 @@ The frontend provides an intuitive interface for users to interact with the revi
 - Random review display
 - Integration of data visualization charts (bar chart, word cloud, and area chart)
 - A form to delete reviews by index
+- Keyword-based review statistics
 - Responsive design for better user experience across devices
 
 ## 8. API Endpoints
@@ -71,6 +82,7 @@ The frontend provides an intuitive interface for users to interact with the revi
 - GET `/bar_chart/`: Get a bar chart of review label distribution
 - GET `/word_cloud/`: Get a word cloud of review text
 - GET `/area_chart/`: Get an area chart of sentiment distribution over a specified time range
+- GET `/api/reviews`: Get keyword-based review statistics
 
 ## 9. Data Visualization
 
@@ -79,6 +91,10 @@ The system provides three types of data visualization:
 2. Word Cloud: Visually represents high-frequency words in reviews
 3. Area Chart: Shows sentiment distribution over time
 
-## 10. Contribution Guidelines
+## 10.Sentiment Analysis
+
+The system uses a RoBERTa-based model for sentiment analysis, classifying reviews into positive, neutral, or negative sentiments.
+
+## 11. Contribution Guidelines
 
 Contributions are welcome. Please feel free to submit a Pull Request.
