@@ -71,3 +71,19 @@ async def get_area_chart(start_date: str, end_date: str):
     area_chart_path = "area_chart.png"
     visualizer.plot_area_chart(start_date, end_date, area_chart_path)
     return FileResponse(area_chart_path, media_type="image/png")
+
+@router.get("/api/reviews")
+async def get_reviews():
+    # 讀取CSV文件
+    df = pd.read_csv("Keyword_Sentiment_Statistics.csv")
+    
+    # 將數據轉換為字典格式
+    data = {}
+    for _, row in df.iterrows():
+        data[row['Keyword']] = {
+            'total': row['Total'],
+            'positive': row['Positive'],
+            'neutral': row['Neutral'],
+            'negative': row['Negative']
+        }
+    return data
