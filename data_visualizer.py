@@ -1,9 +1,12 @@
 # data_visualizer.py
 
 import pandas as pd
+from sklearn.feature_extraction.text import TfidfVectorizer
 import matplotlib.pyplot as plt
 import seaborn as sns
-from wordcloud import WordCloud, STOPWORDS
+from wordcloud import WordCloud
+from tqdm import tqdm
+from preprocessing import process_reviews
 
 class DataVisualizer:
     def __init__(self, df):
@@ -43,14 +46,19 @@ class DataVisualizer:
         plt.close()
 
     def plot_word_cloud(self, file_path):
-        self.df['reviews'] = self.df['reviews'].astype(str)
-        text = " ".join(review for review in self.df.reviews)
+        cleaned_reviews = process_reviews(self.df)
 
-        stopwords = set(STOPWORDS)
-        stopwords.update(["product"])
+        tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=200)
+        tfidf_matrix = tfidf_vectorizer.fit_transform(tqdm(cleaned_reviews, desc="計算 TF-IDF"))
+        tfidf_feature_names = tfidf_vectorizer.get_feature_names_out()
+        tfidf_scores = tfidf_matrix.sum(axis=0).A1
+        tfidf_keywords_with_scores = sorted(zip(tfidf_feature_names, tfidf_scores), key=lambda x: x[1], reverse=True)[:100]
+        top_keywords_with_scores = [(kw, round(score, 2)) for kw, score in tfidf_keywords_with_scores]
 
-        wordcloud = WordCloud(stopwords=stopwords, width=800, height=800, background_color='white', colormap='viridis').generate(text)
-
+        keyword_freq = {kw: score for kw, score in top_keywords_with_scores}
+        wordcloud = WordCloud(width=800, height=800, background_color='white').generate_from_frequencies(keyword_freq)
+        
+        plt.figure(figsize=(10, 10))
         plt.imshow(wordcloud, interpolation='bilinear')
         plt.axis('off')
 

@@ -1,5 +1,5 @@
 # routes.py
-
+import os
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
 from review_manager import ReviewManager, Review, ReviewDelete
@@ -43,11 +43,20 @@ async def get_bar_chart():
 
 @router.get("/word_cloud/")
 async def get_word_cloud():
-    df = pd.read_csv(file_path)
-    visualizer = DataVisualizer(df)
     word_cloud_path = "word_cloud.png"
-    visualizer.plot_word_cloud(word_cloud_path)
-    return FileResponse(word_cloud_path, media_type="image/png")
+    
+    # 檢查文件是否已存在
+    if os.path.exists(word_cloud_path):
+        return FileResponse(word_cloud_path, media_type="image/png")
+    
+    # 如果文件不存在,則創建新的文字雲
+    try:
+        df = pd.read_csv(file_path)
+        visualizer = DataVisualizer(df)
+        visualizer.plot_word_cloud(word_cloud_path)
+        return FileResponse(word_cloud_path, media_type="image/png")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error generating word cloud: {str(e)}")
 
 @router.get("/area_chart/")
 async def get_area_chart(start_date: str, end_date: str):
