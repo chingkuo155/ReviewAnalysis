@@ -27,12 +27,6 @@
             <h2>撰寫產品評論</h2>
             <p>在下面的框中輸入你的評論，然後點選”提交“的按鈕：</p>
             <form id="reviewForm">
-                <label for="product_id">Product ID:</label>
-                <input type="text" id="product_id" name="product_id" required><br><br>
-                <label for="rating">Rating:</label>
-                <input type="number" id="rating" name="rating" min="1" max="5" required><br><br>
-                <label for="labels">Labels:</label>
-                <input type="text" id="labels" name="labels" required><br><br>
                 <label for="reviews">Reviews:</label>
                 <textarea id="reviews" name="reviews" rows="4" placeholder="輸入你的評論..." required></textarea><br><br>
                 <input type="button" onclick="post_review()" value="提交">

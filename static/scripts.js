@@ -1,9 +1,6 @@
 // /static/scripts.js
 function post_review() {
     var formData = {
-        "product_id": $("#product_id").val(),
-        "rating": $("#rating").val(),
-        "labels": $("#labels").val(),
         "reviews": $("#reviews").val()
     };
     $.ajax({
@@ -60,8 +57,8 @@ function loadAllReviews() {
                 var shortReview = truncateReview(fullReview);
                 li.html(
                     "Index: " + review.index + "<br>" +
-                    "Product ID: " + review.product_id + "<br>" +
-                    "Rating: " + review.rating + "<br>" +
+                    //"Product ID: " + review.product_id + "<br>" +
+                    //"Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
                     "Reviews: <div class='review-text-container'>" +
                         "<p class='review-text short-review'>" + shortReview + "</p>" +
@@ -92,8 +89,8 @@ function loadRandomReviews() {
                 var fullReview = review.reviews;
                 var shortReview = truncateReview(fullReview);
                 li.html(
-                    "Product ID: " + review.product_id + "<br>" +
-                    "Rating: " + review.rating + "<br>" +
+                    //"Product ID: " + review.product_id + "<br>" +
+                    //"Rating: " + review.rating + "<br>" +
                     "Labels: " + review.labels + "<br>" +
                     "Reviews: <div class='review-text-container'>" +
                         "<p class='review-text short-review'>" + shortReview + "</p>" +

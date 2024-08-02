@@ -1,16 +1,13 @@
 # review_manager.py
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 import pandas as pd
 import os
 from datetime import datetime
 from sentiment_analyzer import SentimentAnalyzer
 
 class Review(BaseModel):
-    product_id: str
-    rating: int
-    labels: str
-    reviews: str
+    reviews: str 
 
 class ReviewDelete(BaseModel):
     index: int
@@ -24,7 +21,7 @@ class ReviewManager:
         self.df = pd.read_csv(file_path)
         self.sentiment_analyzer = SentimentAnalyzer(model_path)
 
-    def add_review(self, product_id, rating, labels, reviews):
+    def add_review(self, reviews, product_id='default_product_id', rating=5, labels='positive'):
         new_index = self.df['index'].max() + 1 if not self.df.empty else 1
         review_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 

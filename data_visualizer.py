@@ -55,6 +55,9 @@ class DataVisualizer:
         tfidf_keywords_with_scores = sorted(zip(tfidf_feature_names, tfidf_scores), key=lambda x: x[1], reverse=True)[:100]
         top_keywords_with_scores = [(kw, round(score, 2)) for kw, score in tfidf_keywords_with_scores]
 
+        output_df = pd.DataFrame(top_keywords_with_scores, columns=['Keyword', 'Score'])
+        output_df.to_csv("Top100_Keywords_TFIDF_Final.csv", index=False)
+        
         keyword_freq = {kw: score for kw, score in top_keywords_with_scores}
         wordcloud = WordCloud(width=800, height=800, background_color='white').generate_from_frequencies(keyword_freq)
         

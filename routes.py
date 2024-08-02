@@ -15,8 +15,11 @@ router = APIRouter()
 
 @router.post("/add_review/")
 async def add_review(review: Review):
-    review_manager.add_review(review.product_id, review.rating, review.labels, review.reviews)
-    return {"message": "Review added successfully!"}
+    try:
+        review_manager.add_review(review.reviews)
+        return {"message": "Review added successfully!"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/delete_review/")
 async def delete_review(review_delete: ReviewDelete):
