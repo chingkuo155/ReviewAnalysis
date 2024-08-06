@@ -46,6 +46,13 @@ p {
     color: #333;
 }
 
+.p2 {
+    font-size: 18px;
+    color: #fff;
+    background-color: #0f70b0;
+    font-weight: bold;
+}
+
 textarea {
     width: 100%;
     padding: 15px;
