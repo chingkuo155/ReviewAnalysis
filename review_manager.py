@@ -16,14 +16,14 @@ class ReviewManager:
     def __init__(self, file_path, model_path):
         self.file_path = file_path
         if not os.path.isfile(file_path):
-            df = pd.DataFrame(columns=['index', 'product_id', 'rating', 'labels', 'reviews', 'review_date'])
+            df = pd.DataFrame(columns=['index', 'product_id', 'labels', 'reviews', 'review_date', 'rating'])
             df.to_csv(file_path, index=False)
         self.df = pd.read_csv(file_path)
         self.sentiment_analyzer = SentimentAnalyzer(model_path)
 
     def add_review(self, reviews, product_id='default_product_id', rating=5, labels='positive'):
         new_index = self.df['index'].max() + 1 if not self.df.empty else 1
-        review_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        review_date = datetime.now().strftime('%Y-%m-%d')
 
         # Analyze sentiment for the new review only
         sentiment = self.sentiment_analyzer.analyze_sentiments_batch([reviews])[0]
