@@ -36,6 +36,7 @@
         <div class="container-right">
             <h2>評論分析</h2>
             <p>以下是基於評論數據的圖表分析：</p>
+            <p class="p2">關鍵詞</p><br>
             <div id="review-keywords">
                 <!-- Buttons will be dynamically inserted here -->
             </div>
@@ -46,11 +47,11 @@
                 <p>Neutral reviews: <span id="detail-neutral"></span></p>
                 <p>Negative reviews: <span id="detail-negative"></span></p>
             </div>            
-            <p>文字雲</p>
+            <br><p class="p2">文字雲</p>
             <img id="wordCloud" src="" alt="Word Cloud" width="100%">
-            <p>長條圖</p>
+            <p class="p2">情緒分佈</p>
             <img id="barChart" src="" alt="Bar Chart" width="100%">
-            <h2>面積圖</h2>
+            <p class="p2">情緒趨勢</p>
             <form id="areaChartForm">
                 <label for="startDate">開始日期 (YYYY-MM-DD):</label>
                 <input type="date" id="startDate" name="startDate" required><br><br>
@@ -60,7 +61,7 @@
             </form>
             <img id="areaChart" src="" alt="Area Chart" width="100%">
 
-            <h2>刪除評論</h2>
+            <br><h2>刪除評論</h2>
             <form id="deleteForm">
                 <label for="delete_index">Index of Review to Delete:</label>
                 <input type="number" id="delete_index" name="delete_index" required><br><br>
