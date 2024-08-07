@@ -21,7 +21,7 @@ async def add_review(review: Review):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/delete_review/")
+@router.delete("/delete_review/")
 async def delete_review(review_delete: ReviewDelete):
     review_manager.delete_review(review_delete.index)
     return {"message": "Review deleted successfully!"}

@@ -25,7 +25,7 @@ function delete_review() {
     var index = $("#delete_index").val();
     $.ajax({
         url: "/delete_review/",
-        method: "POST",
+        method: "DELETE",
         contentType: "application/json",
         data: JSON.stringify({index: index}),
         success: function(res) {
